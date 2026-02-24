@@ -8,11 +8,27 @@
 
     <h2>Register</h2>
 
+    {% if form.errors %}
+        <div style="color: red;">
+            <p>Please fix the errors below:</p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
+
         {{ form.as_p }}
+
         <button type="submit">Register</button>
     </form>
+
+    <br>
+
+    <p>
+        Already have an account?
+        <a href="{% url 'login' %}">Login</a>
+    </p>
 
 </body>
 </html>
