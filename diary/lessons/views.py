@@ -1,11 +1,8 @@
 from django.http import HttpResponse
-from .models import Lesson
 
 def all_lessons(request):
-    lessons = Lesson.objects.all()
-    text = ""
 
-    for lesson in lessons:
-        text += lesson.name + "<br>"
+    if request.user.groups.filter(name='Teachers').exists():
+        return HttpResponse("Це вчитель")
 
-    return HttpResponse(text)
+    return HttpResponse("Ви не вчитель")
