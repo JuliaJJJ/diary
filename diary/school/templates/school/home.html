@@ -3,6 +3,11 @@
 {% if user.is_authenticated %}
     <p>Користувач: {{ user.username }}</p>
 
+    <p>
+        <a href="{% url 'create_lesson' %}">Створити урок</a>
+
+    </p>
+
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Вийти</button>

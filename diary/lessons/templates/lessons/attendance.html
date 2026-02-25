@@ -1,0 +1,12 @@
+<h2>Відмітити відсутніх</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {% for student in students %}
+        <label>
+            <input type="checkbox" name="{{ student.id }}" checked>
+            {{ student.username }}
+        </label><br>
+    {% endfor %}
+    <button type="submit">Зберегти</button>
+</form>

@@ -1,17 +1,33 @@
 from django.db import models
-from users.models import User
-from school.models import SchoolClass, Subject
+from django.conf import settings
 
 
 class Lesson(models.Model):
-    name = models.CharField(max_length=200)
+    subject = models.CharField(max_length=100)
+    school_class = models.CharField(max_length=50)
     date = models.DateField()
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    school_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='lessons_taught'
+    )
+
+    def __str__(self):
+        return f"{self.subject} - {self.date}"
 
 
-class Grade(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    value = models.IntegerField()
+class Attendance(models.Model):
+    lesson = models.ForeignKey(
+        Lesson,
+        on_delete=models.CASCADE,
+        related_name='attendances'
+    )
+    student = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='lesson_attendance'
+    )
+    is_present = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.student} - {self.lesson}"

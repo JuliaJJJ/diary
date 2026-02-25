@@ -1,0 +1,14 @@
+<h2>Усі уроки</h2>
+
+{% for lesson in lessons %}
+    <p>
+        {{ lesson.subject }} |
+        {{ lesson.school_class }} |
+        {{ lesson.date }} |
+        <a href="{% url 'mark_attendance' lesson.id %}">
+            Відмітити відсутніх
+        </a>
+    </p>
+{% endfor %}
+
+<a href="{% url 'create_lesson' %}">Створити урок</a>

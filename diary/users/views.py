@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate
 from .forms import RegisterForm
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def register_view(request):
@@ -9,12 +9,8 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            group = form.cleaned_data['group']
-            user.groups.add(group)
-
             login(request, user)
-            return redirect('/')
+            return redirect('home')
     else:
         form = RegisterForm()
 
@@ -27,7 +23,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('/')
+            return redirect('home')
     else:
         form = AuthenticationForm()
 
